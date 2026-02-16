@@ -30,6 +30,8 @@ jobs:
         run: |
           chmod +x build_macos_app.sh
           ./build_macos_app.sh
+          chmod +x build_macos_dmg.sh
+          ./build_macos_dmg.sh
           ditto -c -k --sequesterRsrc --keepParent dist/SRCMediaDrop.app dist/SRCMediaDrop-macos.zip
 
       - name: Build (Windows)
@@ -49,14 +51,18 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: release-macos
-          path: dist/SRCMediaDrop-macos.zip
+          path: |
+            dist/SRCMediaDrop-macos.zip
+            dist/SRCMediaDrop-macos.dmg
 
       - name: Upload Windows package
         if: runner.os == 'Windows'
         uses: actions/upload-artifact@v4
         with:
           name: release-windows
-          path: dist/SRCMediaDrop-windows.zip
+          path: |
+            dist/SRCMediaDrop-windows.zip
+            dist/SRCMediaDrop.exe
 
   release:
     needs: build
@@ -82,7 +88,9 @@ jobs:
         with:
           files: |
             dist/SRCMediaDrop-macos.zip
+            dist/SRCMediaDrop-macos.dmg
             dist/SRCMediaDrop-windows.zip
+            dist/SRCMediaDrop.exe
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

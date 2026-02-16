@@ -172,6 +172,21 @@ Saída:
 dist/SRCMediaDrop.app
 ```
 
+### macOS (.dmg)
+
+No Terminal:
+
+```bash
+chmod +x build_macos_dmg.sh
+./build_macos_dmg.sh
+```
+
+Saída:
+
+```text
+dist/SRCMediaDrop-macos.dmg
+```
+
 Ícones gerados em:
 
 ```text
@@ -189,7 +204,11 @@ app_meta.py
 
 ## 🚀 Release automática no GitHub
 
-Ao criar e enviar uma tag no formato `v*`, o workflow publica Release com os dois pacotes (`macOS` e `Windows`).
+Ao criar e enviar uma tag no formato `v*`, o workflow publica Release com assets para leigos:
+- `SRCMediaDrop-macos.dmg`
+- `SRCMediaDrop-macos.zip`
+- `SRCMediaDrop.exe`
+- `SRCMediaDrop-windows.zip`
 
 Exemplo:
 
