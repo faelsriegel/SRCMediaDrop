@@ -24,6 +24,12 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install FFmpeg (macOS)
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          brew install ffmpeg
+
       - name: Build (macOS)
         if: runner.os == 'macOS'
         shell: bash

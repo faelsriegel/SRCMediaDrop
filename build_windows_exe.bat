@@ -25,4 +25,3 @@ if exist .venv\Scripts\python.exe set PYTHON_BIN=.venv\Scripts\python.exe
 
 echo.
 echo Build release concluido. Execute: dist\SRCMediaDrop.exe
-pause

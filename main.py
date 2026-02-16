@@ -3,6 +3,7 @@
 import os
 import shutil
 import platform
+import sys
 import concurrent.futures
 import yt_dlp
 from rich.console import Console
@@ -21,11 +22,24 @@ import questionary
 console = Console()
 
 
+def get_runtime_root() -> str:
+    if getattr(sys, "frozen", False):
+        return getattr(sys, "_MEIPASS", os.path.dirname(sys.executable))
+    return os.path.dirname(os.path.abspath(__file__))
+
+
 def get_ffmpeg_path():
-    pasta_projeto = os.path.dirname(os.path.abspath(__file__))
-    if platform.system() == "Linux":
-        return shutil.which("ffmpeg")
-    return os.path.join(pasta_projeto, "ffmpeg/ffmpeg.exe")
+    pasta_projeto = get_runtime_root()
+    candidates = [
+        os.path.join(pasta_projeto, "ffmpeg", "ffmpeg"),
+        os.path.join(pasta_projeto, "ffmpeg", "ffmpeg.exe"),
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "ffmpeg", "ffmpeg"),
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "ffmpeg", "ffmpeg.exe"),
+    ]
+    for candidate in candidates:
+        if os.path.exists(candidate):
+            return candidate
+    return shutil.which("ffmpeg")
 
 
 def show_header():
@@ -65,7 +79,7 @@ def baixar_audio(url: str, quality: int, progress: Progress, task_id):
     pasta_destino = os.path.join(pasta_projeto, "downloads")
     os.makedirs(pasta_destino, exist_ok=True)
 
-    if not caminho_ffmpeg or (platform.system() != "Linux" and not os.path.exists(caminho_ffmpeg)):
+    if not caminho_ffmpeg:
         console.print("[red]FFmpeg não encontrado! Verifique a instalação.[/red]")
         return
 

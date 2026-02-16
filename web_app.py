@@ -2,6 +2,7 @@ import shutil
 import platform
 import re
 import mimetypes
+import sys
 from urllib.parse import urlparse
 from pathlib import Path
 from uuid import uuid4
@@ -14,7 +15,14 @@ from fastapi.templating import Jinja2Templates
 
 from app_meta import APP_DISPLAY_NAME, APP_VERSION
 
-APP_ROOT = Path(__file__).resolve().parent
+
+def get_runtime_root() -> Path:
+    if getattr(sys, "frozen", False):
+        return Path(getattr(sys, "_MEIPASS", Path(sys.executable).resolve().parent))
+    return Path(__file__).resolve().parent
+
+
+APP_ROOT = get_runtime_root()
 DOWNLOADS_DIR = APP_ROOT / "downloads" / "web"
 TEMPLATES_DIR = APP_ROOT / "templates"
 STATIC_DIR = APP_ROOT / "static"
@@ -78,23 +86,22 @@ def format_duration(seconds: int | None) -> str:
 
 
 def get_ffmpeg_path() -> str | None:
-    system = platform.system()
-    if system == "Windows":
-        ffmpeg_path = APP_ROOT / "ffmpeg" / "ffmpeg.exe"
-        return str(ffmpeg_path) if ffmpeg_path.exists() else None
+    candidates = [
+        APP_ROOT / "ffmpeg" / "ffmpeg",
+        APP_ROOT / "ffmpeg" / "ffmpeg.exe",
+        Path(__file__).resolve().parent / "ffmpeg" / "ffmpeg",
+        Path(__file__).resolve().parent / "ffmpeg" / "ffmpeg.exe",
+    ]
+    for candidate in candidates:
+        if candidate.exists():
+            return str(candidate)
     return shutil.which("ffmpeg")
 
 
 def build_ydl_options(mode: str, quality: str, video_quality: str, output_dir: Path) -> dict:
     ffmpeg_path = get_ffmpeg_path()
     if not ffmpeg_path:
-        system = platform.system()
-        if system == "Windows":
-            message = "FFmpeg not found. Add ffmpeg.exe to the project ffmpeg folder."
-        elif system == "Darwin":
-            message = "FFmpeg not found. Install it with brew install ffmpeg."
-        else:
-            message = "FFmpeg not found. Install it and add to PATH."
+        message = "FFmpeg not found in the app package or system PATH."
         raise RuntimeError(message)
 
     output_template = str(output_dir / "%(title)s.%(ext)s")

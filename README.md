@@ -136,6 +136,9 @@ Recursos do launcher profissional:
 Os scripts abaixo já fazem build **release** com ícone customizado automático.
 Também aplicam metadados de versão para distribuição mais profissional.
 
+Os arquivos gerados para distribuição (`.dmg` e `.exe`) já incluem o runtime e FFmpeg,
+então o usuário final não precisa instalar Python ou dependências extras.
+
 ### Windows (.exe)
 
 No Prompt/PowerShell, dentro da pasta do projeto:

@@ -3,6 +3,25 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
+FFMPEG_STAGE_DIR="build/runtime_ffmpeg"
+FFMPEG_DATA_SOURCE="ffmpeg"
+
+if command -v ffmpeg >/dev/null 2>&1; then
+  mkdir -p "$FFMPEG_STAGE_DIR"
+  cp "$(command -v ffmpeg)" "$FFMPEG_STAGE_DIR/ffmpeg"
+  chmod +x "$FFMPEG_STAGE_DIR/ffmpeg"
+  if command -v ffprobe >/dev/null 2>&1; then
+    cp "$(command -v ffprobe)" "$FFMPEG_STAGE_DIR/ffprobe"
+    chmod +x "$FFMPEG_STAGE_DIR/ffprobe"
+  fi
+  FFMPEG_DATA_SOURCE="$FFMPEG_STAGE_DIR"
+fi
+
+if [[ ! -f "$FFMPEG_DATA_SOURCE/ffmpeg" && ! -f "$FFMPEG_DATA_SOURCE/ffmpeg.exe" ]]; then
+  echo "Erro: FFmpeg nao encontrado para empacotamento. Instale com: brew install ffmpeg"
+  exit 1
+fi
+
 PYTHON_BIN=".venv/bin/python"
 if [[ ! -x "$PYTHON_BIN" ]]; then
   PYTHON_BIN="python3"
@@ -26,6 +45,7 @@ fi
   --hidden-import PIL.ImageDraw \
   --add-data "templates:templates" \
   --add-data "static:static" \
+  --add-data "$FFMPEG_DATA_SOURCE:ffmpeg" \
   --add-data "app_meta.py:." \
   launcher_gui.py
 
