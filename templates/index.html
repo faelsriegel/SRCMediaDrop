@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SRC MediaDrop</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="page">
+      <div class="backdrop"></div>
+      <div class="grid-overlay" aria-hidden="true"></div>
+      <div class="glow-orb orb-a" aria-hidden="true"></div>
+      <div class="glow-orb orb-b" aria-hidden="true"></div>
+      <main class="card">
+        <header class="hero">
+          <p class="eyebrow">Neural Download Interface • Uso pessoal</p>
+          <h1>Baixe YouTube em MP3 ou MP4</h1>
+          <p class="subhead">
+            Cole o link, veja a prévia na hora e escolha o formato ideal para você.
+          </p>
+        </header>
+
+        <div class="alert" id="statusMessage" role="status" aria-live="polite"></div>
+
+        <section class="form-section">
+          <form class="form" id="downloadForm" novalidate>
+            <label class="field">
+              <span>Link do vídeo</span>
+              <input
+                id="urlInput"
+                type="url"
+                name="url"
+                placeholder="https://www.youtube.com/watch?v=..."
+                required
+                autocomplete="off"
+              />
+              <small id="urlFeedback" class="input-feedback">
+                Cole uma URL do YouTube para habilitar o download.
+              </small>
+            </label>
+
+            <div class="split">
+              <label class="field">
+                <span>Formato</span>
+                <div class="radio-group">
+                  <label class="radio">
+                    <input type="radio" name="mode" value="mp3" checked />
+                    <span>Áudio</span>
+                  </label>
+                  <label class="radio">
+                    <input type="radio" name="mode" value="mp4" />
+                    <span>Vídeo</span>
+                  </label>
+                </div>
+              </label>
+
+              <label class="field mode-option" id="qualityField">
+                <span>Qualidade do áudio</span>
+                <select name="quality" id="qualitySelect">
+                  <option value="128">128 kbps</option>
+                  <option value="192" selected>192 kbps</option>
+                  <option value="256">256 kbps</option>
+                </select>
+                <span class="hint" id="qualityHint">
+                  Disponível apenas no tipo Áudio.
+                </span>
+              </label>
+
+              <label class="field mode-option hidden" id="videoQualityField">
+                <span>Qualidade do vídeo</span>
+                <select name="video_quality" id="videoQualitySelect" disabled>
+                  <option value="360">360p</option>
+                  <option value="720" selected>720p</option>
+                  <option value="1080">1080p</option>
+                </select>
+                <span class="hint" id="videoQualityHint">
+                  Disponível apenas no tipo Vídeo.
+                </span>
+              </label>
+            </div>
+
+            <div class="preview-meta" id="previewMeta">
+              <div class="thumb-shell">
+                <img id="previewThumb" alt="Thumbnail do vídeo" loading="lazy" />
+                <span class="thumb-scan" aria-hidden="true"></span>
+              </div>
+              <div class="meta-text">
+                <p class="meta-kicker">Neural Metadata</p>
+                <h3 id="previewTitle">Título do vídeo</h3>
+                <div class="meta-grid">
+                  <p id="previewChannel" class="meta-item">Canal</p>
+                  <p id="previewDuration" class="meta-item">Duração</p>
+                </div>
+              </div>
+            </div>
+
+            <button class="cta" id="downloadButton" type="submit" disabled>
+              <span class="btn-spinner" id="btnSpinner" aria-hidden="true"></span>
+              <span id="btnText">Baixar</span>
+            </button>
+          </form>
+        </section>
+
+        <footer class="footnote">
+          Respeite os termos do YouTube e os direitos autorais. Use apenas para fins pessoais.
+        </footer>
+      </main>
+    </div>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>

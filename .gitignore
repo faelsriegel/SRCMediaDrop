@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+downloads/
+ffmpeg/
+
+batch.txt
+
+.venv/
+build/
+dist/
+*.spec
+.DS_Store
+*.log

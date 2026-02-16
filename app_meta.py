@@ -1,0 +1,8 @@
+APP_DISPLAY_NAME = "SRC MediaDrop"
+APP_SLUG = "SRCMediaDrop"
+APP_LAUNCHER_NAME = "SRCMediaDropLauncher"
+APP_VERSION = "1.0.0"
+APP_COMPANY = "SRC"
+APP_AUTHOR = "Rafael Stuepp Riegel"
+APP_DESCRIPTION = "Downloader local de YouTube em audio e video"
+APP_BUNDLE_ID = "com.src.mediadrop"
