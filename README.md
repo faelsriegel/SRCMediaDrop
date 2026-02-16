@@ -154,7 +154,7 @@ dist\SRCMediaDrop.exe
 
 ```text
 build\icons\app_icon.ico
-build\windows_version.txt
+tools\windows_version.txt
 ```
 
 ### macOS (.app)

@@ -13,7 +13,7 @@ if exist .venv\Scripts\python.exe set PYTHON_BIN=.venv\Scripts\python.exe
 %PYTHON_BIN% -m PyInstaller --noconfirm --clean --onefile --windowed ^
   --name SRCMediaDrop ^
   --icon "build\icons\app_icon.ico" ^
-  --version-file "build\windows_version.txt" ^
+  --version-file "tools\windows_version.txt" ^
   --hidden-import pystray ^
   --hidden-import PIL.Image ^
   --hidden-import PIL.ImageDraw ^
