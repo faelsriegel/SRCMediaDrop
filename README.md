@@ -187,6 +187,25 @@ app_meta.py
 
 ---
 
+## 🚀 Release automática no GitHub
+
+Ao criar e enviar uma tag no formato `v*`, o workflow publica Release com os dois pacotes (`macOS` e `Windows`).
+
+Exemplo:
+
+```bash
+git tag v1.0.1
+git push origin v1.0.1
+```
+
+Workflow:
+
+```text
+.github/workflows/release-desktop.yml
+```
+
+---
+
 ## 🖥️ Como usar (CLI)
 
 Execute o programa com:
